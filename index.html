@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>For Nisha ✨</title>
+
+  <!-- ==========================================================================
+       4. WHATSAPP & OPEN GRAPH LINK PREVIEW INTEGRATION
+       ========================================================================== -->
+  <meta property="og:title" content="For Nisha ✨">
+  <meta property="og:description" content="A little surprise for you...">
+  <meta property="og:image" content="https://nisha-birthday-tau.vercel.app/thumbnail.png">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="For Nisha ✨">
+  <meta name="twitter:description" content="A little surprise for you...">
+  <meta name="twitter:image" content="https://nisha-birthday-tau.vercel.app/thumbnail.png">
+
+  <!-- Google Fonts: 'Fredoka' (bubbly headings), 'Caveat' (handwritten warmth), 'Plus Jakarta Sans' (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+
+  <!-- Canvas Confetti Library via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & CSS VARIABLES
+       ========================================================================== */
+    :root {
+      --bg-cream: #FFF9F5;
+      --bg-blush: #FFF0EB;
+      --surface-white: #FFFFFF;
+      --paper-cream: #FFFAF3;
+
+      --primary-rose: #FF758F;
+      --rose-dark: #E85D75;
+      --soft-pink: #FFCCD5;
+      --peach: #FFAAA6;
+      --gold: #FFB703;
+      --gold-light: #FFE3A8;
+      --lavender: #CDB4DB;
+      --sage: #A7C4BC;
+
+      --text-main: #33272A;
+      --text-muted: #79666B;
+      --text-light: #A38F95;
+
+      /* Multi-layered soft ambient shadows */
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.03), 0 4px 10px rgba(232, 93, 117, 0.06);
+      --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 20px rgba(0, 0, 0, 0.08);
+      --shadow-3d: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 20px rgba(0, 0, 0, 0.08), 0 25px 50px -12px rgba(120, 53, 67, 0.25);
+
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 32px;
+      --radius-full: 9999px;
+
+      /* Responsive 3D card dimensions */
+      --card-w: min(168px, 43vw);
+      --card-h: min(252px, 62vw);
+    }
+
+    @media (min-width: 540px) {
+      :root {
+        --card-w: 220px;
+        --card-h: 320px;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+      /* Smooth 1.8s background transition for "Lights Out" twilight */
+      transition: background-color 1.8s cubic-bezier(0.4, 0, 0.2, 1), color 1.8s ease;
+    }
+
+    /* Subtle aesthetic notebook grid texture */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 182, 193, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 182, 193, 0.12) 1px, transparent 1px);
+      background-size: 22px 22px;
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 1.8s ease;
+    }
+
+    /* Ambient pastel radial lighting in daylight */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 15% 15%, rgba(255, 204, 213, 0.45) 0%, transparent 45%),
+        radial-gradient(circle at 85% 25%, rgba(255, 227, 168, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 50% 85%, rgba(205, 180, 219, 0.35) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 1.8s ease, background 1.8s ease;
+    }
+
+    /* Twilight Mode triggered on candle blowout */
+    body.twilight-mode {
+      background-color: #0f172a;
+      color: #F8FAFC;
+    }
+
+    body.twilight-mode::before {
+      opacity: 0.1;
+    }
+
+    body.twilight-mode::after {
+      background: 
+        radial-gradient(circle at 50% 25%, rgba(99, 102, 241, 0.35) 0%, transparent 60%),
+        radial-gradient(circle at 80% 85%, rgba(168, 85, 247, 0.28) 0%, transparent 50%),
+        linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #090d16 100%);
+      opacity: 1;
+    }
+
+    body.twilight-mode .hero-card {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 50px rgba(99, 102, 241, 0.2);
+    }
+
+    body.twilight-mode .hero-badge {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.22);
+      color: #FFE3A8;
+    }
+
+    body.twilight-mode .mic-hint-text {
+      color: #E2E8F0;
+    }
+
+    /* Canvas for 50 glowing fireflies */
+    #firefly-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    /* ==========================================================================
+       1. DYNAMIC ASSET FADING: DAYTIME VS. NIGHTTIME TRANSITION
+       ========================================================================== */
+    .decorations-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* Daytime elements: Bunting, Balloons, Pastel Stars */
+    .daytime-decorations {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 1.5s ease-out;
+    }
+
+    body.twilight-mode .daytime-decorations {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Nighttime elements: Glowing Animated String Lights & Twinkling Stars */
+    .nighttime-decorations {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.6s ease-in;
+      z-index: 2;
+    }
+
+    body.twilight-mode .nighttime-decorations {
+      opacity: 1;
+    }
+
+    .string-lights-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 95px;
+      overflow: visible;
+    }
+
+    .fairy-bulb {
+      animation: bulb-pulse 2.2s ease-in-out infinite alternate;
+    }
+    .fairy-bulb:nth-child(2n) { animation-duration: 1.8s; animation-delay: -0.4s; }
+    .fairy-bulb:nth-child(3n) { animation-duration: 2.5s; animation-delay: -0.9s; }
+    .fairy-bulb:nth-child(4n) { animation-duration: 2.1s; animation-delay: -1.3s; }
+
+    @keyframes bulb-pulse {
+      0% {
+        opacity: 0.6;
+        transform: scale(0.92);
+        filter: drop-shadow(0 0 4px rgba(255, 234, 167, 0.6));
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1.15);
+        filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.95)) drop-shadow(0 0 22px rgba(255, 183, 3, 0.6));
+      }
+    }
+
+    .night-star {
+      position: absolute;
+      font-size: 1.15rem;
+      animation: night-twinkle 3s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+    }
+    .night-star.star-n1 { top: 75px; left: 12%; animation-delay: -0.5s; }
+    .night-star.star-n2 { top: 120px; right: 14%; animation-delay: -1.5s; font-size: 1.35rem; }
+    .night-star.star-n3 { top: 195px; left: 6%; animation-delay: -2.2s; font-size: 0.95rem; }
+    .night-star.star-n4 { top: 230px; right: 8%; animation-delay: -0.8s; font-size: 1.2rem; }
+    .night-star.star-n5 { top: 290px; left: 16%; animation-delay: -1.8s; }
+    .night-star.star-n6 { top: 320px; right: 18%; animation-delay: -1.1s; font-size: 1.1rem; }
+
+    @keyframes night-twinkle {
+      0% { opacity: 0.35; transform: scale(0.8) rotate(0deg); }
+      100% { opacity: 1; transform: scale(1.25) rotate(20deg); }
+    }
+
+    .parallax-layer-1 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 90px;
+      will-change: transform;
+      transition: transform 0.15s cubic-bezier(0.2, 0, 0.2, 1);
+    }
+
+    .bunting-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .flag {
+      transform-origin: top center;
+      animation: flag-sway 3.2s ease-in-out infinite alternate;
+    }
+    .flag:nth-child(2n) { animation-duration: 2.7s; animation-delay: -0.6s; }
+    .flag:nth-child(3n) { animation-duration: 3.5s; animation-delay: -1.2s; }
+    .flag:nth-child(4n) { animation-duration: 2.9s; animation-delay: -1.8s; }
+
+    @keyframes flag-sway {
+      0% { transform: rotate(-5deg); }
+      100% { transform: rotate(5deg); }
+    }
+
+    .parallax-layer-2 {
+      position: absolute;
+      inset: 0;
+      will-change: transform;
+      transition: transform 0.18s cubic-bezier(0.2, 0, 0.2, 1);
+    }
+
+    .floating-balloon {
+      position: absolute;
+      filter: drop-shadow(0 10px 18px rgba(220, 100, 120, 0.18));
+      animation: balloon-bob 6s ease-in-out infinite alternate;
+    }
+
+    .balloon-left {
+      top: 95px;
+      left: 5%;
+      width: 56px;
+      animation-duration: 5.5s;
+    }
+
+    .balloon-right {
+      top: 110px;
+      right: 5%;
+      width: 60px;
+      animation-duration: 6.5s;
+      animation-delay: -1.5s;
+    }
+
+    @keyframes balloon-bob {
+      0% { transform: translateY(0px) rotate(-3deg); }
+      50% { transform: translateY(-16px) rotate(4deg); }
+      100% { transform: translateY(-6px) rotate(-2deg); }
+    }
+
+    .floating-star {
+      position: absolute;
+      animation: star-spin 7s ease-in-out infinite alternate;
+    }
+
+    .star-1 {
+      top: 240px;
+      left: 8%;
+      width: 30px;
+      animation-duration: 6s;
+    }
+
+    .star-2 {
+      top: 280px;
+      right: 8%;
+      width: 34px;
+      animation-duration: 5.2s;
+      animation-delay: -2s;
+    }
+
+    @keyframes star-spin {
+      0% { transform: scale(1) rotate(0deg); opacity: 0.85; }
+      50% { transform: scale(1.18) rotate(25deg); opacity: 1; }
+      100% { transform: scale(0.95) rotate(-15deg); opacity: 0.85; }
+    }
+
+    /* ==========================================================================
+       3D HOVER & GLASSMORPHISM MAIN HERO CARD
+       ========================================================================== */
+    .app-wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-card {
+      position: relative;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 2.2rem 1.6rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: background 1.8s ease, border-color 1.8s ease, box-shadow 1.8s ease;
+    }
+
+    .washi-tape {
+      position: absolute;
+      top: -12px;
+      width: 110px;
+      height: 26px;
+      background: rgba(255, 209, 220, 0.88);
+      border-left: 2px dashed rgba(232, 93, 117, 0.25);
+      border-right: 2px dashed rgba(232, 93, 117, 0.25);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      transform: rotate(-3deg);
+      border-radius: 2px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.95rem;
+      background: #FFF0F3;
+      border: 1px solid #FFCCD5;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--rose-dark);
+      margin-bottom: 0.6rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 1.8s ease;
+    }
+
+    /* ==========================================================================
+       3. ANIMATED GOLD FOIL TYPOGRAPHY WITH SHARP DROP SHADOW
+       ========================================================================== */
+    .gold-foil-text {
+      background-image: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      background-size: 200% auto;
+      animation: shine 3s linear infinite;
+      display: inline-block;
+      /* Sharp drop-shadow to separate from frosted glassmorphism background */
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+    }
+
+    @keyframes shine {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .hero-greeting {
+      font-family: 'Sacramento', cursive;
+      font-size: 2.3rem;
+      line-height: 1.1;
+      margin-bottom: 0.15rem;
+    }
+
+    .hero-name {
+      font-family: 'Fredoka', cursive;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hero-name .sparkle {
+      color: #FFB703;
+      background: none;
+      -webkit-background-clip: initial;
+      animation: star-spin 2.2s infinite;
+    }
+
+    /* ==========================================================================
+       CAKE & CANDLE FLAME (High-Definition 3D Dribbble Aesthetic)
+       ========================================================================== */
+    .cake-stage {
+      position: relative;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .cake-svg {
+      width: 215px;
+      height: 185px;
+      max-width: 85vw;
+      overflow: visible;
+      filter: drop-shadow(0 14px 24px rgba(220, 100, 120, 0.16));
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cake-stage:hover .cake-svg {
+      transform: scale(1.03);
+    }
+
+    .flame-element {
+      transform-origin: 120px 32px;
+      animation: flame-dance 1.3s ease-in-out infinite alternate;
+      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), filter 0.5s ease;
+      filter: drop-shadow(0 0 10px rgba(255, 183, 3, 0.95)) drop-shadow(0 -4px 16px rgba(255, 80, 20, 0.75));
+    }
+
+    @keyframes flame-dance {
+      0% {
+        transform: scale(1) rotate(-2deg);
+        filter: drop-shadow(0 0 10px rgba(255, 183, 3, 0.95)) drop-shadow(0 -4px 16px rgba(255, 80, 20, 0.75));
+      }
+      25% {
+        transform: scale(1.06, 0.95) rotate(1.8deg) skewX(1deg);
+        filter: drop-shadow(0 0 14px rgba(255, 200, 30, 1)) drop-shadow(0 -6px 20px rgba(255, 110, 35, 0.85));
+      }
+      60% {
+        transform: scale(0.96, 1.05) rotate(-1.5deg) skewX(-1.2deg);
+        filter: drop-shadow(0 0 9px rgba(255, 170, 0, 0.9)) drop-shadow(0 -3px 14px rgba(255, 75, 20, 0.7));
+      }
+      100% {
+        transform: scale(1.04, 0.97) rotate(2.2deg);
+        filter: drop-shadow(0 0 12px rgba(255, 190, 20, 1)) drop-shadow(0 -5px 18px rgba(255, 95, 30, 0.8));
+      }
+    }
+
+    .flame-element.extinguished {
+      opacity: 0 !important;
+      transform: translateY(-22px) scale(0.15) !important;
+      filter: none !important;
+      animation: none !important;
+    }
+
+    .smoke-wisp {
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      font-size: 2rem;
+      opacity: 0;
+      z-index: 10;
+    }
+
+    .smoke-wisp.puff {
+      animation: smoke-float 1.4s ease-out forwards;
+    }
+
+    @keyframes smoke-float {
+      0% {
+        opacity: 0.9;
+        transform: translate(-50%, 0) scale(0.6);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + 15px), -55px) scale(2);
+      }
+    }
+
+    .mic-status-container {
+      width: 100%;
+      max-width: 280px;
+      margin-bottom: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .mic-meter-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 204, 213, 0.4);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mic-meter-track.active {
+      opacity: 1;
+    }
+
+    .mic-meter-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #FFB703, #FF758F);
+      border-radius: var(--radius-full);
+      transition: width 0.08s ease;
+    }
+
+    .mic-hint-text {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      min-height: 1.2rem;
+      transition: color 1.8s ease;
+    }
+
+    /* Action button with smooth color fading transitions */
+    .blow-btn {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      padding: 1.05rem 1.6rem;
+      background: linear-gradient(135deg, #FF758F 0%, #FF5376 50%, #E85D75 100%);
+      border: none;
+      border-radius: var(--radius-full);
+      color: #FFFFFF;
+      font-family: 'Fredoka', cursive;
+      font-size: 1.08rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      box-shadow: 0 10px 25px rgba(255, 83, 118, 0.38), 0 4px 10px rgba(0, 0, 0, 0.08);
+      transition: background 0.7s cubic-bezier(0.25, 1, 0.5, 1), color 0.4s ease, transform 0.25s ease, box-shadow 0.6s ease;
+      overflow: hidden;
+    }
+
+    .blow-btn::before {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, #FFB703, #FF758F, #CDB4DB);
+      z-index: -1;
+      opacity: 0.55;
+      filter: blur(10px);
+      animation: pulse-glow 2.4s infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(0.98); opacity: 0.45; }
+      50% { transform: scale(1.04); opacity: 0.85; }
+    }
+
+    .blow-btn:active {
+      transform: scale(0.95);
+    }
+
+    .blow-btn.listening {
+      background: linear-gradient(135deg, #FFB703 0%, #FFAAA6 100%) !important;
+      color: var(--text-main);
+      box-shadow: 0 10px 25px rgba(255, 183, 3, 0.35);
+    }
+
+    .blow-btn.preparing {
+      background: linear-gradient(135deg, #FFAAA6 0%, #FF8CA3 100%) !important;
+      color: #FFFFFF;
+      box-shadow: 0 10px 25px rgba(255, 140, 163, 0.38);
+    }
+
+    .blow-btn.revealing {
+      background: linear-gradient(135deg, #FF758F 0%, #CDB4DB 100%) !important;
+      color: #FFFFFF;
+      box-shadow: 0 10px 25px rgba(205, 180, 219, 0.45);
+    }
+
+    /* ==========================================================================
+       GLASSMORPHISM MODAL OVERLAY & 3D GREETING CARD
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .card-scene {
+      perspective: 1200px;
+      position: relative;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .book-container {
+      position: relative;
+      width: var(--card-w);
+      height: var(--card-h);
+      transform-style: preserve-3d;
+      transform: translateX(0px);
+      transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .book-container.is-open {
+      transform: translateX(calc(var(--card-w) / 2));
+    }
+
+    .panel-right {
+      position: absolute;
+      inset: 0;
+      background-color: var(--paper-cream);
+      background-image: 
+        radial-gradient(#F5E6D3 1px, transparent 1px),
+        linear-gradient(to bottom, transparent 96%, rgba(230, 205, 185, 0.32) 96%);
+      background-size: 16px 16px, 100% 24px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      border: 1px solid rgba(220, 195, 175, 0.85);
+      border-left: 2px solid rgba(190, 160, 140, 0.4);
+      padding: 1.3rem 1.15rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: inset 10px 0 25px rgba(220, 190, 165, 0.3), var(--shadow-3d);
+      overflow-y: auto;
+      z-index: 1;
+    }
+
+    .washi-corner-right {
+      position: absolute;
+      top: -6px;
+      right: 12px;
+      width: 50px;
+      height: 18px;
+      background: rgba(167, 196, 188, 0.85);
+      border-radius: 2px;
+      transform: rotate(3deg);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .right-panel-letter {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.05rem, 3.4vw, 1.38rem);
+      line-height: 1.4;
+      color: #382C30;
+      letter-spacing: 0.01em;
+      white-space: normal;
+    }
+
+    .right-panel-footer {
+      display: flex;
+      justify-content: space-around;
+      font-size: 1.35rem;
+      margin-top: 0.5rem;
+      padding-top: 0.4rem;
+      border-top: 1px dashed rgba(220, 190, 175, 0.6);
+    }
+
+    .card-cover {
+      position: absolute;
+      inset: 0;
+      transform-origin: left center;
+      transform-style: preserve-3d;
+      transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 2;
+    }
+
+    .book-container.is-open .card-cover {
+      transform: rotateY(-180deg);
+    }
+
+    .cover-front {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: var(--radius-md);
+      background: linear-gradient(145deg, #FF8CA3 0%, #FF6584 50%, #EA4C6F 100%);
+      border: 3px solid #FFF5F7;
+      box-shadow: 
+        inset 0 0 0 5px rgba(255, 255, 255, 0.25),
+        var(--shadow-3d);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.6rem 1.1rem 1.4rem;
+      text-align: center;
+      color: #FFFFFF;
+    }
+
+    .gold-emboss-border {
+      position: absolute;
+      inset: 8px;
+      border: 1.5px solid rgba(255, 227, 168, 0.65);
+      border-radius: calc(var(--radius-md) - 6px);
+      pointer-events: none;
+    }
+
+    .cover-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 0.3rem 0.85rem;
+      border-radius: var(--radius-full);
+      backdrop-filter: blur(4px);
+    }
+
+    .cover-art {
+      font-size: 3.4rem;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+      animation: pulse-glow 2.8s infinite;
+    }
+
+    .cover-title {
+      font-family: 'Sacramento', cursive;
+      font-size: 2.1rem;
+      color: #FFF9F5;
+      line-height: 1.1;
+      margin-bottom: 0.1rem;
+    }
+
+    .cover-recipient {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.03em;
+    }
+
+    .cover-hint {
+      font-size: 0.76rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--rose-dark);
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .cover-back {
+      position: absolute;
+      inset: 0;
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: var(--radius-md) 0 0 var(--radius-md);
+      background-color: var(--paper-cream);
+      background-image: radial-gradient(#F5E6D3 1px, transparent 1px);
+      background-size: 14px 14px;
+      border: 1px solid rgba(220, 195, 175, 0.85);
+      border-right: 2px solid rgba(190, 160, 140, 0.4);
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: inset -10px 0 25px rgba(220, 190, 165, 0.3), var(--shadow-3d);
+    }
+
+    .polaroid-container {
+      position: relative;
+      background: #FFFFFF;
+      padding: 8px 8px 18px;
+      border-radius: 6px;
+      box-shadow: 0 8px 20px rgba(150, 70, 90, 0.14);
+      border: 1px solid #F0D0D8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: rotate(-1.5deg);
+      width: 100%;
+      max-width: calc(var(--card-w) - 1.7rem);
+    }
+
+    .polaroid-img-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #FFE5EC;
+    }
+
+    .reveal-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    #scratch-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+      touch-action: none;
+      border-radius: 4px;
+      transition: opacity 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .polaroid-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      color: var(--rose-dark);
+      font-weight: 700;
+      margin-top: 6px;
+      line-height: 1.1;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .btn-action {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1.5px solid rgba(255, 200, 215, 0.8);
+      color: var(--text-main);
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius-full);
+      font-family: 'Fredoka', cursive;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.25s ease;
+    }
+
+    .btn-action:active {
+      transform: scale(0.92);
+      background: #FFE8EE;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fullscreen Canvas for 50 Glowing Fireflies -->
+  <canvas id="firefly-canvas"></canvas>
+
+  <!-- ==========================================================================
+       1. DYNAMIC DECORATIONS: DAYTIME BUNTING & BALLOONS VS. NIGHTTIME STRING LIGHTS
+       ========================================================================== -->
+  <div class="decorations-container">
+    
+    <!-- Daytime Elements (Fades to 0 opacity during twilight) -->
+    <div class="daytime-decorations">
+      <div class="parallax-layer-1" data-parallax="0.06">
+        <svg class="bunting-svg" viewBox="0 0 800 80" preserveAspectRatio="none">
+          <path d="M0,15 Q200,45 400,20 Q600,45 800,15" fill="none" stroke="#FFCCD5" stroke-width="2.5" stroke-dasharray="4,4"/>
+          <g class="flag" style="transform-origin: 50px 18px;"><polygon points="40,18 60,18 50,55" fill="#FF758F"/></g>
+          <g class="flag" style="transform-origin: 110px 24px;"><polygon points="100,24 120,24 110,60" fill="#FFB703"/></g>
+          <g class="flag" style="transform-origin: 170px 29px;"><polygon points="160,29 180,29 170,66" fill="#CDB4DB"/></g>
+          <g class="flag" style="transform-origin: 230px 30px;"><polygon points="220,30 240,30 230,68" fill="#FFAAA6"/></g>
+          <g class="flag" style="transform-origin: 290px 27px;"><polygon points="280,27 300,27 290,64" fill="#A7C4BC"/></g>
+          <g class="flag" style="transform-origin: 350px 22px;"><polygon points="340,22 360,22 350,58" fill="#FFCCD5"/></g>
+          <g class="flag" style="transform-origin: 410px 21px;"><polygon points="400,21 420,21 410,57" fill="#FF758F"/></g>
+          <g class="flag" style="transform-origin: 470px 24px;"><polygon points="460,24 480,24 470,61" fill="#FFB703"/></g>
+          <g class="flag" style="transform-origin: 530px 28px;"><polygon points="520,28 540,28 530,66" fill="#CDB4DB"/></g>
+          <g class="flag" style="transform-origin: 590px 30px;"><polygon points="580,30 600,30 590,67" fill="#FFAAA6"/></g>
+          <g class="flag" style="transform-origin: 650px 27px;"><polygon points="640,27 660,27 650,63" fill="#A7C4BC"/></g>
+          <g class="flag" style="transform-origin: 710px 21px;"><polygon points="700,21 720,21 710,57" fill="#FF758F"/></g>
+          <g class="flag" style="transform-origin: 760px 17px;"><polygon points="750,17 770,17 760,52" fill="#FFB703"/></g>
+        </svg>
+      </div>
+
+      <div class="parallax-layer-2" data-parallax="0.16">
+        <div class="floating-balloon balloon-left">
+          <svg viewBox="0 0 60 90" fill="none">
+            <ellipse cx="30" cy="38" rx="26" ry="32" fill="url(#pinkBall)" />
+            <ellipse cx="22" cy="24" rx="6" ry="12" fill="white" opacity="0.4" />
+            <polygon points="30,70 26,76 34,76" fill="#FF5376" />
+            <path d="M30,76 Q34,84 28,92" stroke="#E85D75" stroke-width="1.8" fill="none" />
+            <defs>
+              <linearGradient id="pinkBall" x1="10" y1="10" x2="50" y2="70" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFAAA6"/>
+                <stop offset="1" stop-color="#FF5376"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <div class="floating-balloon balloon-right">
+          <svg viewBox="0 0 60 90" fill="none">
+            <ellipse cx="30" cy="38" rx="26" ry="32" fill="url(#goldBall)" />
+            <ellipse cx="22" cy="24" rx="6" ry="12" fill="white" opacity="0.45" />
+            <polygon points="30,70 26,76 34,76" fill="#E5A000" />
+            <path d="M30,76 Q25,84 32,92" stroke="#CCA000" stroke-width="1.8" fill="none" />
+            <defs>
+              <linearGradient id="goldBall" x1="10" y1="10" x2="50" y2="70" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFE3A8"/>
+                <stop offset="1" stop-color="#FFB703"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <div class="floating-star star-1">
+          <svg viewBox="0 0 40 40">
+            <path d="M20,2 L24,14 L36,15 L27,24 L30,36 L20,29 L10,36 L13,24 L4,15 L16,14 Z" fill="#FFB703" stroke="#FFF" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <div class="floating-star star-2">
+          <svg viewBox="0 0 40 40">
+            <path d="M20,2 L24,14 L36,15 L27,24 L30,36 L20,29 L10,36 L13,24 L4,15 L16,14 Z" fill="#FF758F" stroke="#FFF" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nighttime Atmosphere: Glowing Animated String Lights & Twinkling Constellation (Fades in) -->
+    <div class="nighttime-decorations">
+      <svg class="string-lights-svg" viewBox="0 0 800 100" preserveAspectRatio="none">
+        <path d="M0,22 Q200,55 400,28 Q600,60 800,22" fill="none" stroke="rgba(255, 235, 175, 0.45)" stroke-width="2"/>
+        <g class="fairy-bulb bulb-1"><circle cx="60" cy="38" r="6" fill="#FFEAA7"/><circle cx="60" cy="38" r="16" fill="rgba(255, 234, 167, 0.25)"/></g>
+        <g class="fairy-bulb bulb-2"><circle cx="140" cy="48" r="6.5" fill="#FFD166"/><circle cx="140" cy="48" r="17" fill="rgba(255, 209, 102, 0.25)"/></g>
+        <g class="fairy-bulb bulb-3"><circle cx="220" cy="54" r="6" fill="#FFEAA7"/><circle cx="220" cy="54" r="16" fill="rgba(255, 234, 167, 0.25)"/></g>
+        <g class="fairy-bulb bulb-4"><circle cx="300" cy="46" r="6.5" fill="#FFD166"/><circle cx="300" cy="46" r="17" fill="rgba(255, 209, 102, 0.25)"/></g>
+        <g class="fairy-bulb bulb-5"><circle cx="380" cy="34" r="6" fill="#FFEAA7"/><circle cx="380" cy="34" r="16" fill="rgba(255, 234, 167, 0.25)"/></g>
+        <g class="fairy-bulb bulb-6"><circle cx="460" cy="42" r="6.5" fill="#FFD166"/><circle cx="460" cy="42" r="17" fill="rgba(255, 209, 102, 0.25)"/></g>
+        <g class="fairy-bulb bulb-7"><circle cx="540" cy="54" r="6" fill="#FFEAA7"/><circle cx="540" cy="54" r="16" fill="rgba(255, 234, 167, 0.25)"/></g>
+        <g class="fairy-bulb bulb-8"><circle cx="620" cy="52" r="6.5" fill="#FFD166"/><circle cx="620" cy="52" r="17" fill="rgba(255, 209, 102, 0.25)"/></g>
+        <g class="fairy-bulb bulb-9"><circle cx="700" cy="38" r="6" fill="#FFEAA7"/><circle cx="700" cy="38" r="16" fill="rgba(255, 234, 167, 0.25)"/></g>
+        <g class="fairy-bulb bulb-10"><circle cx="760" cy="27" r="5.5" fill="#FFD166"/><circle cx="760" cy="27" r="15" fill="rgba(255, 209, 102, 0.25)"/></g>
+      </svg>
+
+      <div class="starry-sky-overlay">
+        <div class="night-star star-n1">✨</div>
+        <div class="night-star star-n2">⭐</div>
+        <div class="night-star star-n3">✨</div>
+        <div class="night-star star-n4">💫</div>
+        <div class="night-star star-n5">⭐</div>
+        <div class="night-star star-n6">✨</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MAIN SCREEN & 3D TILT GLASSMORPHISM HERO CARD
+       ========================================================================== -->
+  <main class="app-wrapper">
+    <section class="hero-card" id="hero-card">
+      <div class="washi-tape"></div>
+
+      <div class="hero-badge">
+        <span>🌸</span>
+        <span>A Special Birthday Wish</span>
+      </div>
+
+      <!-- 3. Animated Gold Foil Typography with Sharp Drop Shadow -->
+      <div class="gold-foil-text hero-greeting">Wishing Happy Birthday to</div>
+      <h1 class="gold-foil-text hero-name">
+        <span>Nisha</span>
+        <span class="sparkle">✨</span>
+      </h1>
+
+      <!-- Cake Stage with Flame & Smoke -->
+      <div class="cake-stage" id="cake-stage" title="Blow into mic or tap to extinguish!">
+        <span class="smoke-wisp" id="smoke-wisp">💨</span>
+
+        <svg class="cake-svg" viewBox="0 0 240 210" aria-label="Delicious 3D Birthday Cake">
+          <defs>
+            <!-- Drop shadow for the ceramic plate -->
+            <radialGradient id="plate-shadow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#4A1525" stop-opacity="0.25"/>
+              <stop offset="65%" stop-color="#4A1525" stop-opacity="0.08"/>
+              <stop offset="100%" stop-color="#4A1525" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- Ceramic Plate Porcelain Gradients -->
+            <linearGradient id="plate-rim-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="60%" stop-color="#F2E6DF"/>
+              <stop offset="100%" stop-color="#D9C7BD"/>
+            </linearGradient>
+
+            <linearGradient id="plate-surface-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#EFE4DC"/>
+              <stop offset="35%" stop-color="#FFFFFF"/>
+              <stop offset="70%" stop-color="#FFFFFF"/>
+              <stop offset="100%" stop-color="#EFE4DC"/>
+            </linearGradient>
+
+            <!-- Bottom Tier 3D Cylindrical Cake Gradient -->
+            <linearGradient id="cake-tier-bottom-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#E85D75"/>
+              <stop offset="15%" stop-color="#FF758F"/>
+              <stop offset="45%" stop-color="#FFA4B5"/>
+              <stop offset="75%" stop-color="#FF758F"/>
+              <stop offset="100%" stop-color="#D84560"/>
+            </linearGradient>
+
+            <!-- Bottom Tier Top Lid Surface -->
+            <radialGradient id="tier-bottom-lid-grad" cx="45%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="#FFEBF0"/>
+              <stop offset="65%" stop-color="#FFD4DE"/>
+              <stop offset="100%" stop-color="#FFB3C4"/>
+            </radialGradient>
+
+            <!-- Top Tier 3D Cylindrical Cake Gradient -->
+            <linearGradient id="cake-tier-top-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#FFAAA6"/>
+              <stop offset="20%" stop-color="#FFBDBA"/>
+              <stop offset="50%" stop-color="#FFDEDC"/>
+              <stop offset="80%" stop-color="#FFBDBA"/>
+              <stop offset="100%" stop-color="#F28E89"/>
+            </linearGradient>
+
+            <!-- Top Tier Top Lid Surface -->
+            <radialGradient id="tier-top-lid-grad" cx="45%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="70%" stop-color="#FFF2EC"/>
+              <stop offset="100%" stop-color="#FFE2D6"/>
+            </radialGradient>
+
+            <!-- Glossy Icing Gradient (Rich Mascarpone Cream) -->
+            <linearGradient id="icing-body-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="55%" stop-color="#FFFFFF"/>
+              <stop offset="85%" stop-color="#FFF5F7"/>
+              <stop offset="100%" stop-color="#F8E3E8"/>
+            </linearGradient>
+
+            <!-- Filter: Icing Thickness Drop Shadow -->
+            <filter id="icing-shadow" x="-15%" y="-15%" width="130%" height="140%">
+              <feDropShadow dx="0" dy="3.5" stdDeviation="2" flood-color="#87233E" flood-opacity="0.18"/>
+            </filter>
+
+            <!-- Candle Shading (Cylindrical 3D) -->
+            <linearGradient id="candle-cylinder-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#D92D52"/>
+              <stop offset="20%" stop-color="#FF477E"/>
+              <stop offset="48%" stop-color="#FFA8C1"/>
+              <stop offset="75%" stop-color="#FF477E"/>
+              <stop offset="100%" stop-color="#B81D40"/>
+            </linearGradient>
+
+            <!-- Candle Wax Rim -->
+            <linearGradient id="candle-wax-rim" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="100%" stop-color="#FFCCD5"/>
+            </linearGradient>
+
+            <!-- Candlelight Glow Pool on Top Tier -->
+            <radialGradient id="candlelight-pool" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#FFB703" stop-opacity="0.45"/>
+              <stop offset="40%" stop-color="#FFB703" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#FFB703" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- Candle Flame: Outer Glow -->
+            <linearGradient id="flame-outer-grad" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#FF3B00" stop-opacity="0.95"/>
+              <stop offset="35%" stop-color="#FF7A00"/>
+              <stop offset="75%" stop-color="#FFAA00"/>
+              <stop offset="100%" stop-color="#FFD000"/>
+            </linearGradient>
+
+            <!-- Candle Flame: Middle Warm Glow -->
+            <linearGradient id="flame-mid-grad" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#FF9E00"/>
+              <stop offset="45%" stop-color="#FFDA00"/>
+              <stop offset="85%" stop-color="#FFF176"/>
+              <stop offset="100%" stop-color="#FFFDE7"/>
+            </linearGradient>
+
+            <!-- Candle Flame: Inner Incandescent Core -->
+            <linearGradient id="flame-core-grad" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#FFF9C4"/>
+              <stop offset="40%" stop-color="#FFFFFF"/>
+              <stop offset="100%" stop-color="#FFFFFF"/>
+            </linearGradient>
+
+            <!-- Candle Flame: Blue Oxygen Base -->
+            <radialGradient id="flame-blue-base" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.95"/>
+              <stop offset="50%" stop-color="#6366F1" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#4338CA" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- Clip path for the candy stripes on the candle -->
+            <clipPath id="candle-body-clip">
+              <rect x="114" y="44" width="12" height="38" rx="2.5"/>
+            </clipPath>
+          </defs>
+
+          <!-- 1. CERAMIC CAKE PLATE WITH 3D DEPTH -->
+          <g id="ceramic-plate">
+            <!-- Plate ground shadow -->
+            <ellipse cx="120" cy="195" rx="98" ry="11" fill="url(#plate-shadow)"/>
+            <!-- Ceramic rim outer lip -->
+            <ellipse cx="120" cy="189" rx="96" ry="13" fill="url(#plate-rim-grad)"/>
+            <!-- Ceramic upper surface -->
+            <ellipse cx="120" cy="186" rx="93" ry="11.5" fill="url(#plate-surface-grad)" stroke="#FFFFFF" stroke-width="1"/>
+            <!-- Soft inner bevel ring -->
+            <ellipse cx="120" cy="186" rx="78" ry="8" fill="none" stroke="#E5D6CC" stroke-width="0.75" opacity="0.6"/>
+          </g>
+
+          <!-- 2. BOTTOM TIER (Cylindrical 3D Depth) -->
+          <g id="cake-tier-bottom">
+            <!-- Bottom tier contact shadow onto plate -->
+            <ellipse cx="120" cy="178" rx="73" ry="12" fill="#802338" opacity="0.12"/>
+            <!-- Bottom tier cylinder body -->
+            <path d="M 48,130 L 48,172 A 72 14.5 0 0 0 192,172 L 192,130 Z" fill="url(#cake-tier-bottom-grad)"/>
+            <!-- Bottom tier curved top surface -->
+            <ellipse cx="120" cy="130" rx="72" ry="14.5" fill="url(#tier-bottom-lid-grad)"/>
+
+            <!-- Bottom Tier Glossy Dripping Icing -->
+            <path d="M 48,130 A 72 14.5 0 0 0 192,130 
+                     C 189,142 186,151 180,151 
+                     C 174,151 171,138 165,138 
+                     C 159,138 155,157 146,157 
+                     C 137,157 134,141 128,141 
+                     C 122,141 118,162 108,162 
+                     C 99,162 96,143 90,143 
+                     C 84,143 81,154 74,154 
+                     C 68,154 65,140 59,140 
+                     C 53,140 50,146 48,130 Z" 
+                  fill="url(#icing-body-grad)" 
+                  filter="url(#icing-shadow)"/>
+
+            <!-- Glossy Specular Highlights along bottom drips -->
+            <path d="M 52,132 C 72,143 105,146 142,143 C 162,141 178,136 188,132" 
+                  stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.8"/>
+            <path d="M 105,158 C 107,161 110,161 112,158" 
+                  stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.9"/>
+            <path d="M 143,153 C 145,156 148,156 150,153" 
+                  stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+            <!-- Decorative Pastel Pearls & Sprinkles on Bottom Tier -->
+            <circle cx="58" cy="148" r="2" fill="#A8E6CF"/>
+            <circle cx="94" cy="151" r="2.2" fill="#FFD166"/>
+            <circle cx="132" cy="149" r="2" fill="#DED2F9"/>
+            <circle cx="170" cy="147" r="2.2" fill="#FFB7B2"/>
+            <rect x="70" y="165" width="5" height="2" rx="1" fill="#FFD166" transform="rotate(-20 70 165)"/>
+            <rect x="156" y="166" width="5.5" height="2" rx="1" fill="#A8E6CF" transform="rotate(25 156 166)"/>
+            <circle cx="120" cy="170" r="1.8" fill="#FFFFFF"/>
+          </g>
+
+          <!-- 3. TOP TIER CONTACT SHADOW ONTO BOTTOM TIER -->
+          <ellipse cx="120" cy="130" rx="50" ry="10" fill="#6B182B" opacity="0.16"/>
+
+          <!-- 4. TOP TIER (Cylindrical 3D Depth) -->
+          <g id="cake-tier-top">
+            <!-- Top tier cylinder body -->
+            <path d="M 72,82 L 72,124 A 48 10.5 0 0 0 168,124 L 168,82 Z" fill="url(#cake-tier-top-grad)"/>
+            <!-- Top tier curved top lid -->
+            <ellipse cx="120" cy="82" rx="48" ry="10.5" fill="url(#tier-top-lid-grad)"/>
+
+            <!-- Warm Candlelight Reflected Pool onto Top Lid -->
+            <ellipse cx="120" cy="82" rx="38" ry="8" fill="url(#candlelight-pool)"/>
+
+            <!-- Top Tier Luscious Glossy Dripping Icing -->
+            <path d="M 72,82 A 48 10.5 0 0 0 168,82 
+                     C 166,92 163,101 157,101 
+                     C 151,101 148,90 143,90 
+                     C 137,90 134,106 126,106 
+                     C 119,106 116,92 110,92 
+                     C 104,92 101,104 94,104 
+                     C 88,104 86,91 81,91 
+                     C 77,91 74,96 72,82 Z" 
+                  fill="url(#icing-body-grad)" 
+                  filter="url(#icing-shadow)"/>
+
+            <!-- Top Tier Specular Gloss Line and Highlights -->
+            <path d="M 76,83 C 94,91 122,93 148,90 C 158,88 163,85 165,83" 
+                  stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
+            <path d="M 123,102 C 125,105 128,105 130,102" 
+                  stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.9"/>
+            <path d="M 91,100 C 93,103 95,103 97,100" 
+                  stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+            <!-- Delicate Confetti Sprinkles on Top Tier Surface -->
+            <rect x="90" y="81" width="4.5" height="1.8" rx="0.9" fill="#FFD166" transform="rotate(-15 90 81)"/>
+            <rect x="142" y="80" width="4.5" height="1.8" rx="0.9" fill="#A8E6CF" transform="rotate(35 142 80)"/>
+            <circle cx="106" cy="85" r="1.6" fill="#DED2F9"/>
+            <circle cx="134" cy="84" r="1.6" fill="#FFAAA6"/>
+            <circle cx="82" cy="98" r="1.8" fill="#FFD166"/>
+            <circle cx="152" cy="96" r="1.8" fill="#A8E6CF"/>
+          </g>
+
+          <!-- 5. DIMENSIONAL CANDY-STRIPED CANDLE -->
+          <g id="candy-striped-candle">
+            <!-- Wax base contact shadow on cake -->
+            <ellipse cx="120" cy="83" rx="8" ry="2.5" fill="#802338" opacity="0.3"/>
+
+            <!-- Candle Cylinder Body with Clip Path -->
+            <g clip-path="url(#candle-body-clip)">
+              <!-- Base 3D Shading Cylinder -->
+              <rect x="114" y="44" width="12" height="39" fill="url(#candle-cylinder-grad)"/>
+
+              <!-- Spiraling Candy Stripes -->
+              <g stroke="#FFFFFF" stroke-width="4" stroke-linecap="square">
+                <line x1="108" y1="52" x2="132" y2="42"/>
+                <line x1="108" y1="63" x2="132" y2="53"/>
+                <line x1="108" y1="74" x2="132" y2="64"/>
+                <line x1="108" y1="85" x2="132" y2="75"/>
+              </g>
+
+              <!-- Champagne Gold Accent Pinstripe -->
+              <g stroke="#FFD166" stroke-width="1" stroke-linecap="square">
+                <line x1="108" y1="55" x2="132" y2="45"/>
+                <line x1="108" y1="66" x2="132" y2="56"/>
+                <line x1="108" y1="77" x2="132" y2="67"/>
+                <line x1="108" y1="88" x2="132" y2="78"/>
+              </g>
+
+              <!-- Specular Gloss Sheen Overlay on Cylinder -->
+              <line x1="117.5" y1="44" x2="117.5" y2="83" stroke="#FFFFFF" stroke-width="1.5" opacity="0.6"/>
+              <!-- Ambient Shadow on Right Side -->
+              <line x1="124.5" y1="44" x2="124.5" y2="83" stroke="#000000" stroke-width="1.8" opacity="0.15"/>
+            </g>
+
+            <!-- Rounded Melted Wax Top Cup -->
+            <ellipse cx="120" cy="44" rx="6" ry="2.2" fill="url(#candle-wax-rim)" stroke="#FF8FA3" stroke-width="0.5"/>
+            <!-- Melted wax center well -->
+            <ellipse cx="120" cy="44" rx="3.2" ry="1.2" fill="#E896A4"/>
+
+            <!-- Realistic Braided Blackened Wick with Ember -->
+            <path d="M 120,44 Q 121,37 120,33" stroke="#2B1E22" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <circle cx="120" cy="33" r="0.9" fill="#FF5722"/>
+          </g>
+
+          <!-- 6. MULTI-LAYERED FLICKERING CANDLE FLAME (CRUCIAL JS HOOK) -->
+          <g class="flame-element" id="candle-flame">
+            <!-- Flame Blue Oxygen Base -->
+            <ellipse cx="120" cy="32" rx="4" ry="2.2" fill="url(#flame-blue-base)"/>
+
+            <!-- Outer Radiant Orange / Amber Flame Teardrop -->
+            <path d="M 120,8 
+                     C 128,16 129,26 126,29.5 
+                     C 123.5,33 116.5,33 114,29.5 
+                     C 111,26 112,16 120,8 Z" 
+                  fill="url(#flame-outer-grad)"/>
+
+            <!-- Middle Brilliant Golden Yellow Flame -->
+            <path d="M 120,12 
+                     C 126,18 127,26 124.5,28.5 
+                     C 122.5,31 117.5,31 115.5,28.5 
+                     C 113,26 114,18 120,12 Z" 
+                  fill="url(#flame-mid-grad)"/>
+
+            <!-- Inner Blazing Incandescent White Core -->
+            <path d="M 120,17 
+                     C 123.5,21 124,25.5 122.5,27.5 
+                     C 121.5,29 118.5,29 117.5,27.5 
+                     C 116,25.5 116.5,21 120,17 Z" 
+                  fill="url(#flame-core-grad)"/>
+
+            <!-- Micro Specular Apex Glint -->
+            <circle cx="120" cy="9.5" r="1.2" fill="#FFFFFF" opacity="0.95"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Real-Time Mic Level Progress Track -->
+      <div class="mic-status-container">
+        <div class="mic-meter-track" id="mic-track">
+          <div class="mic-meter-fill" id="mic-fill"></div>
+        </div>
+        <div class="mic-hint-text" id="mic-hint">Tap below to activate your mic and make a wish!</div>
+      </div>
+
+      <!-- Button with 3-Stage Smooth Color Transitions -->
+      <button class="blow-btn" id="blow-trigger-btn">
+        <span id="blow-btn-icon">🌬️</span>
+        <span id="blow-btn-text">Make a wish & blow out the candle</span>
+      </button>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       3D CSS GREETING CARD MODAL (With Glassmorphism & Scratch-Off)
+       ========================================================================== -->
+  <div class="modal-overlay" id="card-modal">
+    <div class="card-scene">
+      <div class="book-container" id="book-container">
+        
+        <!-- RIGHT INSIDE PANEL: Exact Custom Message for Nisha -->
+        <div class="panel-right">
+          <div class="washi-corner-right"></div>
+          
+          <div class="right-panel-letter">
+            Happiest of birthdays, Nisha! I'm really enjoying getting to know you. Wishing you a fantastic day with lots of cake and zero bad dating app pickup lines. – Nikhil
+          </div>
+
+          <div class="right-panel-footer">
+            <span>🎂</span>
+            <span>✨</span>
+            <span>🌸</span>
+            <span>🥂</span>
+          </div>
+        </div>
+
+        <!-- 3D FLIPPING FRONT COVER (Flips -180deg on Y-axis with custom cubic-bezier) -->
+        <div class="card-cover" id="card-cover">
+          
+          <!-- Outside Cover -->
+          <div class="cover-front">
+            <div class="gold-emboss-border"></div>
+            <div class="cover-badge">Special Edition</div>
+            
+            <div class="cover-art">💌</div>
+
+            <div>
+              <div class="cover-title">For Dearest</div>
+              <div class="cover-recipient">Nisha ✨</div>
+            </div>
+
+            <div class="cover-hint">
+              <span>Opening for you...</span>
+              <span>📖</span>
+            </div>
+          </div>
+
+          <!-- Inside Left Panel: High-Fidelity Scratch-to-Reveal Canvas -->
+          <div class="cover-back">
+            <div class="polaroid-container">
+              <div class="polaroid-img-wrapper" id="polaroid-wrapper">
+                
+                <!-- 🚨 INSERT HER PICTURE HERE 🚨 -->
+                <!-- To replace with Nisha's photo, simply change the src below to any image URL or file path -->
+                <img class="reveal-img" id="reveal-image" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><defs><linearGradient id='bgGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23FFE5EC'/><stop offset='100%25' stop-color='%23FFCCD5'/></linearGradient></defs><rect width='400' height='400' fill='url(%23bgGrad)'/><circle cx='200' cy='165' r='90' fill='%23FFF0F3'/><path d='M120 160 Q200 270 280 160' stroke='%2333272A' stroke-width='6' fill='none'/><circle cx='168' cy='152' r='10' fill='%2333272A'/><circle cx='232' cy='152' r='10' fill='%2333272A'/><path d='M184 188 Q200 202 216 188' stroke='%23E85D75' stroke-width='5' stroke-linecap='round' fill='none'/><circle cx='150' cy='175' r='14' fill='%23FF758F' opacity='0.45'/><circle cx='250' cy='175' r='14' fill='%23FF758F' opacity='0.45'/><polygon points='200,20 156,100 244,100' fill='%23FFB703'/><circle cx='200' cy='20' r='11' fill='%23FF5376'/><text x='200' y='325' font-family='sans-serif' font-size='26' font-weight='800' fill='%23E85D75' text-anchor='middle'>BIRTHDAY QUEEN 👑</text><text x='200' y='360' font-family='sans-serif' font-size='18' font-weight='600' fill='%23A38F95' text-anchor='middle'>✨ Nisha ✨</text></svg>" alt="Nisha Special Moment" style="object-fit: cover;">
+                
+                <!-- High-DPI Scratch Canvas with destination-out & shadowBlur -->
+                <canvas id="scratch-canvas"></canvas>
+              </div>
+              <div class="polaroid-caption">Rub to Reveal ✨</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Modal Controls -->
+    <div class="modal-actions">
+      <button class="btn-action" id="rethrow-confetti-btn">
+        <span>More Confetti</span>
+        <span>🎉</span>
+      </button>
+      <button class="btn-action" id="close-modal-btn">
+        <span>Close Card</span>
+        <span>✕</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT ARCHITECTURE
+       ========================================================================== -->
+  <script>
+    /* ==========================================================================
+       PARALLAX DEPTH SYSTEM & 3D CARD TILT
+       ========================================================================== */
+    const heroCard = document.getElementById('hero-card');
+
+    (function initParallaxSystem() {
+      const layers = document.querySelectorAll('[data-parallax]');
+      let targetX = 0;
+      let targetY = 0;
+      let currentX = 0;
+      let currentY = 0;
+
+      function onDeviceOrientation(e) {
+        if (e.gamma !== null && e.beta !== null) {
+          const clampedGamma = Math.max(-45, Math.min(45, e.gamma));
+          const clampedBeta = Math.max(-30, Math.min(60, e.beta - 40));
+          targetX = clampedGamma * 1.5;
+          targetY = clampedBeta * 1.5;
+        }
+      }
+
+      if (window.DeviceOrientationEvent) {
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+          window.addEventListener('click', () => {
+            DeviceOrientationEvent.requestPermission()
+              .then(state => {
+                if (state === 'granted') {
+                  window.addEventListener('deviceorientation', onDeviceOrientation, { passive: true });
+                }
+              })
+              .catch(() => {});
+          }, { once: true });
+        } else {
+          window.addEventListener('deviceorientation', onDeviceOrientation, { passive: true });
+        }
+      }
+
+      window.addEventListener('pointermove', (e) => {
+        const normX = (e.clientX / window.innerWidth) - 0.5;
+        const normY = (e.clientY / window.innerHeight) - 0.5;
+        targetX = normX * 60;
+        targetY = normY * 60;
+      }, { passive: true });
+
+      function renderParallax() {
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+
+        // Background floating layers
+        layers.forEach(layer => {
+          const depth = parseFloat(layer.getAttribute('data-parallax')) || 0.1;
+          const px = currentX * depth * 2.5;
+          const py = currentY * depth * 2.5;
+          layer.style.transform = `translate3d(${px.toFixed(2)}px, ${py.toFixed(2)}px, 0)`;
+        });
+
+        // 3D Tilt Effect on the central glassmorphism hero card
+        if (heroCard) {
+          const tiltX = (currentY / 60) * -12;
+          const tiltY = (currentX / 60) * 12;
+          heroCard.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg)`;
+        }
+
+        requestAnimationFrame(renderParallax);
+      }
+      renderParallax();
+    })();
+
+    /* ==========================================================================
+       FIREFLY CANVAS PARTICLE EFFECT (50 Glowing Particles from Candle Wick)
+       ========================================================================== */
+    const fireflyCanvas = document.getElementById('firefly-canvas');
+    const fireflyCtx = fireflyCanvas.getContext('2d');
+    let fireflies = [];
+    let isFireflyRunning = false;
+
+    function resizeFireflyCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      fireflyCanvas.width = window.innerWidth * dpr;
+      fireflyCanvas.height = window.innerHeight * dpr;
+      fireflyCtx.scale(dpr, dpr);
+    }
+    window.addEventListener('resize', () => {
+      if (isFireflyRunning) resizeFireflyCanvas();
+    });
+
+    class Firefly {
+      constructor(originX, originY) {
+        this.x = originX;
+        this.y = originY;
+
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 2.5 + Math.random() * 5.5;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed - 1.2;
+
+        this.radius = 2 + Math.random() * 3;
+        this.alpha = 1;
+        this.decay = 0.003 + Math.random() * 0.004;
+
+        this.seedX = Math.random() * 1000;
+        this.seedY = Math.random() * 1000;
+        this.wanderFreq = 0.002 + Math.random() * 0.002;
+
+        const warmGlowColors = ['#FFE3A8', '#FFD166', '#FFB703', '#FFF3B0', '#F4D35E'];
+        this.color = warmGlowColors[Math.floor(Math.random() * warmGlowColors.length)];
+      }
+
+      update() {
+        this.vx *= 0.94;
+        this.vy *= 0.94;
+
+        const time = Date.now();
+        this.x += this.vx + Math.sin(time * this.wanderFreq + this.seedX) * 1.3;
+        this.y += this.vy + Math.cos(time * this.wanderFreq + this.seedY) * 1.3 - 0.45;
+
+        this.alpha = Math.max(0, this.alpha - this.decay);
+      }
+
+      draw(ctx) {
+        if (this.alpha <= 0) return;
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 14;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function spawnFireflies(originX, originY) {
+      resizeFireflyCanvas();
+      fireflies = [];
+      for (let i = 0; i < 50; i++) {
+        fireflies.push(new Firefly(originX, originY));
+      }
+      if (!isFireflyRunning) {
+        isFireflyRunning = true;
+        animateFireflies();
+      }
+    }
+
+    function animateFireflies() {
+      if (!isFireflyRunning) return;
+      fireflyCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      let activeCount = 0;
+      for (let i = 0; i < fireflies.length; i++) {
+        fireflies[i].update();
+        fireflies[i].draw(fireflyCtx);
+        if (fireflies[i].alpha > 0) activeCount++;
+      }
+
+      if (activeCount > 0) {
+        requestAnimationFrame(animateFireflies);
+      } else {
+        isFireflyRunning = false;
+        fireflyCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+    }
+
+    /* ==========================================================================
+       SYNTHESIZED WEB AUDIO API: CHIME & TWINKLE GENERATOR
+       ========================================================================== */
+    let audioContext = null;
+
+    function getAudioContext() {
+      if (!audioContext) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioContext = new AudioContext();
+      }
+      if (audioContext && audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      return audioContext;
+    }
+
+    function playPreCardChime() {
+      try {
+        const ctx = getAudioContext();
+        const twinkleNotes = [783.99, 1046.50, 1318.51, 1567.98, 1975.53];
+        const now = ctx.currentTime;
+
+        twinkleNotes.forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + i * 0.09);
+
+          gain.gain.setValueAtTime(0.0001, now + i * 0.09);
+          gain.gain.linearRampToValueAtTime(0.09, now + i * 0.09 + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.09 + 0.85);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(now + i * 0.09);
+          osc.stop(now + i * 0.09 + 0.9);
+        });
+      } catch (e) {
+        console.warn("Chime synth:", e);
+      }
+    }
+
+    /* ==========================================================================
+       MICROPHONE BLOW DETECTION & "LIGHTS OUT" STATE TRANSITION
+       ========================================================================== */
+    const blowBtn = document.getElementById('blow-trigger-btn');
+    const blowBtnText = document.getElementById('blow-btn-text');
+    const blowBtnIcon = document.getElementById('blow-btn-icon');
+    const micTrack = document.getElementById('mic-track');
+    const micFill = document.getElementById('mic-fill');
+    const micHint = document.getElementById('mic-hint');
+    const candleFlame = document.getElementById('candle-flame');
+    const smokeWisp = document.getElementById('smoke-wisp');
+    const cakeStage = document.getElementById('cake-stage');
+
+    let micStream = null;
+    let analyserNode = null;
+    let isListening = false;
+    let isBlownOut = false;
+    let blowStreak = 0;
+
+    /**
+     * Executes the candle blowout:
+     * - "Lights out" background transition to twilight (#0f172a to #1e1b4b)
+     * - Spawns 50 glowing fireflies swirling from the candle wick
+     * - Fades out daytime decorations and fades in glowing fairy lights
+     * - Smooth button state transitions & Web Audio twinkle chime
+     * - Exactly 2.0s duration before opening the 3D greeting card
+     */
+    function extinguishCandle() {
+      if (isBlownOut) return;
+      isBlownOut = true;
+      isListening = false;
+
+      // 1. Extinguish flame & spawn rising smoke puff
+      candleFlame.classList.add('extinguished');
+      smokeWisp.classList.add('puff');
+
+      // 2. Shut off microphone stream
+      if (micStream) {
+        micStream.getTracks().forEach(track => track.stop());
+      }
+      micTrack.classList.remove('active');
+      micFill.style.width = '0%';
+
+      // 3. "LIGHTS OUT" Twilight Transition (Body class triggers 1.5s asset fading)
+      document.body.classList.add('twilight-mode');
+
+      // 4. Spawn 50 glowing firefly particles from exact wick coordinates
+      const wickRect = candleFlame.getBoundingClientRect();
+      const originX = wickRect.left + wickRect.width / 2;
+      const originY = wickRect.top + wickRect.height / 2;
+      spawnFireflies(originX, originY);
+
+      // 5. Button State Stage 1: "Candle blown out! Preparing your surprise..."
+      blowBtn.classList.remove('listening');
+      blowBtn.classList.add('preparing');
+      blowBtnIcon.textContent = '✨';
+      blowBtnText.textContent = 'Candle blown out! Preparing your surprise...';
+      micHint.textContent = 'Candle extinguished! Making a wish...';
+
+      // 6. Button State Stage 2 at t = 1000ms: "Wish made! Revealing surprise..." + Chime
+      setTimeout(() => {
+        blowBtn.classList.remove('preparing');
+        blowBtn.classList.add('revealing');
+        blowBtnIcon.textContent = '💫';
+        blowBtnText.textContent = 'Wish made! Revealing surprise...';
+        micHint.textContent = 'Opening your special surprise...';
+
+        playPreCardChime();
+      }, 1000);
+
+      // 7. Exactly 2 seconds (2000ms) transition before opening 3D greeting card
+      setTimeout(() => {
+        transitionToPhase3();
+      }, 2000);
+    }
+
+    function monitorMicAudio() {
+      if (!isListening || isBlownOut || !analyserNode) return;
+
+      const bufferLength = analyserNode.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      analyserNode.getByteFrequencyData(dataArray);
+
+      let totalSum = 0;
+      let lowFreqSum = 0;
+      const lowBins = Math.floor(bufferLength * 0.3);
+
+      for (let i = 0; i < bufferLength; i++) {
+        totalSum += dataArray[i];
+        if (i < lowBins) lowFreqSum += dataArray[i];
+      }
+
+      const avgVolume = totalSum / bufferLength;
+      const lowFreqAvg = lowFreqSum / lowBins;
+
+      const meterPercent = Math.min(100, Math.round((avgVolume / 90) * 100));
+      micFill.style.width = `${meterPercent}%`;
+
+      if (avgVolume > 48 || lowFreqAvg > 62) {
+        blowStreak++;
+        if (blowStreak >= 4) {
+          extinguishCandle();
+          return;
+        }
+      } else {
+        blowStreak = Math.max(0, blowStreak - 1);
+      }
+
+      requestAnimationFrame(monitorMicAudio);
+    }
+
+    async function startMicListening() {
+      try {
+        const ctx = getAudioContext();
+
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        const source = ctx.createMediaStreamSource(micStream);
+
+        analyserNode = ctx.createAnalyser();
+        analyserNode.fftSize = 512;
+        analyserNode.smoothingTimeConstant = 0.25;
+        source.connect(analyserNode);
+
+        isListening = true;
+        blowBtn.classList.add('listening');
+        blowBtnIcon.textContent = '🎤';
+        blowBtnText.textContent = 'Listening... Blow on your mic! 🌬️';
+        micTrack.classList.add('active');
+        micHint.textContent = 'Blow gently near your phone microphone!';
+
+        monitorMicAudio();
+      } catch (err) {
+        console.warn("Microphone access unavailable or denied:", err);
+        micHint.textContent = 'Mic not accessible — tap the candle directly to blow it out!';
+        blowBtnText.textContent = 'Tap to blow out the candle 🕯️';
+      }
+    }
+
+    blowBtn.addEventListener('click', () => {
+      if (isBlownOut) return;
+      if (!isListening) {
+        startMicListening();
+      } else {
+        extinguishCandle();
+      }
+    });
+
+    cakeStage.addEventListener('click', () => {
+      if (!isBlownOut) {
+        extinguishCandle();
+      }
+    });
+
+    /* ==========================================================================
+       PHASE 3: 3D CARD ANIMATION & CONFETTI
+       ========================================================================== */
+    const cardModal = document.getElementById('card-modal');
+    const bookContainer = document.getElementById('book-container');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const rethrowConfettiBtn = document.getElementById('rethrow-confetti-btn');
+
+    function fireCelebrationConfetti() {
+      if (typeof confetti !== 'function') return;
+
+      confetti({
+        particleCount: 85,
+        spread: 75,
+        origin: { y: 0.6 },
+        colors: ['#FF758F', '#FFB703', '#CDB4DB', '#FFAAA6', '#FFF0EB']
+      });
+
+      setTimeout(() => {
+        confetti({
+          particleCount: 50,
+          angle: 60,
+          spread: 60,
+          origin: { x: 0.08, y: 0.8 },
+          colors: ['#FFB703', '#FF758F', '#FFE3A8']
+        });
+        confetti({
+          particleCount: 50,
+          angle: 120,
+          spread: 60,
+          origin: { x: 0.92, y: 0.8 },
+          colors: ['#CDB4DB', '#FF758F', '#A7C4BC']
+        });
+      }, 250);
+    }
+
+    function transitionToPhase3() {
+      cardModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      initScratchCanvas();
+
+      setTimeout(() => {
+        bookContainer.classList.add('is-open');
+
+        setTimeout(() => {
+          fireCelebrationConfetti();
+        }, 650);
+      }, 400);
+    }
+
+    closeModalBtn.addEventListener('click', () => {
+      bookContainer.classList.remove('is-open');
+      setTimeout(() => {
+        cardModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }, 450);
+    });
+
+    rethrowConfettiBtn.addEventListener('click', fireCelebrationConfetti);
+
+    /* ==========================================================================
+       2. AUTO-COMPLETE SCRATCH-TO-REVEAL & LOCALIZED MICRO-CONFETTI
+       ========================================================================== */
+    const scratchCanvas = document.getElementById('scratch-canvas');
+    const polaroidWrapper = document.getElementById('polaroid-wrapper');
+    let scratchCtx = null;
+    let isScratching = false;
+    let lastScratchPoint = null;
+    let isScratchInitialized = false;
+
+    // Auto-reveal state flags
+    let isRevealed = false;
+    let scratchCheckCounter = 0;
+
+    function initScratchCanvas() {
+      if (isScratchInitialized) return;
+      isScratchInitialized = true;
+
+      scratchCtx = scratchCanvas.getContext('2d');
+
+      const rect = polaroidWrapper.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const width = Math.round(rect.width || 140);
+      const height = Math.round(rect.height || 140);
+
+      scratchCanvas.width = width * dpr;
+      scratchCanvas.height = height * dpr;
+      scratchCtx.scale(dpr, dpr);
+
+      const grad = scratchCtx.createLinearGradient(0, 0, width, height);
+      grad.addColorStop(0, '#E4DCDA');
+      grad.addColorStop(0.35, '#F8F2F0');
+      grad.addColorStop(0.7, '#DCD4D2');
+      grad.addColorStop(1, '#EFE7E5');
+
+      scratchCtx.fillStyle = grad;
+      scratchCtx.fillRect(0, 0, width, height);
+
+      scratchCtx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+      for (let i = 0; i < 40; i++) {
+        const sx = Math.random() * width;
+        const sy = Math.random() * height;
+        const sr = Math.random() * 2 + 1;
+        scratchCtx.beginPath();
+        scratchCtx.arc(sx, sy, sr, 0, Math.PI * 2);
+        scratchCtx.fill();
+      }
+
+      scratchCtx.fillStyle = '#A38088';
+      scratchCtx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
+      scratchCtx.textAlign = 'center';
+      scratchCtx.textBaseline = 'middle';
+      scratchCtx.fillText('Scratch Here! ✨', width / 2, height / 2);
+    }
+
+    function getCanvasCoordinates(e) {
+      const rect = scratchCanvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+
+    /**
+     * Checks the cleared pixel percentage via getImageData.
+     * When > 45% cleared:
+     * - Fades canvas to opacity 0 via CSS transition
+     * - Sets pointer-events: none
+     * - Fires localized confetti burst from the revealed photo coordinates!
+     */
+    function checkScratchCompletion() {
+      if (isRevealed || !scratchCtx) return;
+
+      const w = scratchCanvas.width;
+      const h = scratchCanvas.height;
+      if (!w || !h) return;
+
+      try {
+        const imageData = scratchCtx.getImageData(0, 0, w, h);
+        const data = imageData.data;
+        const step = 8; // Subsample for instant 60fps performance
+        let sampled = 0;
+        let cleared = 0;
+
+        for (let i = 3; i < data.length; i += 4 * step) {
+          sampled++;
+          if (data[i] < 32) { // alpha value near 0
+            cleared++;
+          }
+        }
+
+        const percentCleared = (cleared / sampled) * 100;
+
+        if (percentCleared >= 45) {
+          isRevealed = true;
+
+          // 1. Automatically fade canvas opacity to 0 using CSS transition
+          scratchCanvas.style.transition = 'opacity 0.65s cubic-bezier(0.25, 1, 0.5, 1)';
+          scratchCanvas.style.opacity = '0';
+          scratchCanvas.style.pointerEvents = 'none';
+
+          // 2. Localized secondary confetti burst originating specifically from revealed photo coordinates
+          const rect = polaroidWrapper.getBoundingClientRect();
+          const originX = (rect.left + rect.width / 2) / window.innerWidth;
+          const originY = (rect.top + rect.height / 2) / window.innerHeight;
+
+          if (typeof confetti === 'function') {
+            confetti({
+              particleCount: 50,
+              spread: 65,
+              startVelocity: 24,
+              origin: { x: originX, y: originY },
+              colors: ['#FF758F', '#FFB703', '#FFE3A8', '#FFF0EB', '#FF5376', '#CDB4DB'],
+              ticks: 200,
+              gravity: 1.1,
+              shapes: ['circle', 'square']
+            });
+          }
+
+          // Trigger soft twinkle chime
+          playPreCardChime();
+        }
+      } catch (err) {
+        console.warn("Scratch check:", err);
+      }
+    }
+
+    function scratchAt(pos) {
+      if (!scratchCtx || isRevealed) return;
+
+      scratchCtx.save();
+      scratchCtx.globalCompositeOperation = 'destination-out';
+      
+      scratchCtx.lineWidth = 38;
+      scratchCtx.lineCap = 'round';
+      scratchCtx.lineJoin = 'round';
+
+      scratchCtx.shadowColor = 'rgba(0, 0, 0, 1)';
+      scratchCtx.shadowBlur = 8;
+
+      scratchCtx.beginPath();
+      if (lastScratchPoint) {
+        scratchCtx.moveTo(lastScratchPoint.x, lastScratchPoint.y);
+        scratchCtx.lineTo(pos.x, pos.y);
+      } else {
+        scratchCtx.arc(pos.x, pos.y, 19, 0, Math.PI * 2);
+      }
+      scratchCtx.stroke();
+      scratchCtx.restore();
+
+      lastScratchPoint = pos;
+
+      // Check cleared percentage every 6 strokes
+      scratchCheckCounter++;
+      if (scratchCheckCounter % 6 === 0) {
+        checkScratchCompletion();
+      }
+    }
+
+    scratchCanvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      isScratching = true;
+      lastScratchPoint = null;
+      scratchAt(getCanvasCoordinates(e));
+    }, { passive: false });
+
+    scratchCanvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!isScratching) return;
+      scratchAt(getCanvasCoordinates(e));
+    }, { passive: false });
+
+    scratchCanvas.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      isScratching = false;
+      lastScratchPoint = null;
+      checkScratchCompletion();
+    }, { passive: false });
+
+    scratchCanvas.addEventListener('mousedown', (e) => {
+      isScratching = true;
+      lastScratchPoint = null;
+      scratchAt(getCanvasCoordinates(e));
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isScratching) return;
+      scratchAt(getCanvasCoordinates(e));
+    });
+
+    window.addEventListener('mouseup', () => {
+      isScratching = false;
+      lastScratchPoint = null;
+      checkScratchCompletion();
+    });
+  </script>
+</body>
+</html>

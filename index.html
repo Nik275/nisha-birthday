@@ -8,10 +8,14 @@
   <!-- ==========================================================================
        4. WHATSAPP & OPEN GRAPH LINK PREVIEW INTEGRATION
        ========================================================================== -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nisha-birthday-tau.vercel.app/">
   <meta property="og:title" content="For Nisha ✨">
   <meta property="og:description" content="A little surprise for you...">
   <meta property="og:image" content="https://nisha-birthday-tau.vercel.app/thumbnail.png">
-  <meta property="og:type" content="website">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="For Nisha ✨">
@@ -1670,7 +1674,10 @@
     let analyserNode = null;
     let isListening = false;
     let isBlownOut = false;
-    let blowStreak = 0;
+    let blowStartTime = 0;
+    const REQUIRED_BLOW_DURATION = 500; // Requires 500ms of sustained input (400-600ms range)
+    const BLOW_THRESHOLD_LOW_FREQ = 82; // Raised significantly to filter normal speech & ambiance
+    const BLOW_THRESHOLD_VOLUME = 68;   // High volume requirement ignores background noise
 
     /**
      * Executes the candle blowout:
@@ -1684,6 +1691,7 @@
       if (isBlownOut) return;
       isBlownOut = true;
       isListening = false;
+      blowStartTime = 0;
 
       // 1. Extinguish flame & spawn rising smoke puff
       candleFlame.classList.add('extinguished');
@@ -1738,7 +1746,7 @@
 
       let totalSum = 0;
       let lowFreqSum = 0;
-      const lowBins = Math.floor(bufferLength * 0.3);
+      const lowBins = Math.floor(bufferLength * 0.3); // Deep breath turbulence (< 500Hz)
 
       for (let i = 0; i < bufferLength; i++) {
         totalSum += dataArray[i];
@@ -1748,17 +1756,30 @@
       const avgVolume = totalSum / bufferLength;
       const lowFreqAvg = lowFreqSum / lowBins;
 
-      const meterPercent = Math.min(100, Math.round((avgVolume / 90) * 100));
-      micFill.style.width = `${meterPercent}%`;
+      const now = performance.now();
+      // Require both strong low-frequency breath turbulence AND elevated volume
+      const isAboveThreshold = (lowFreqAvg >= BLOW_THRESHOLD_LOW_FREQ && avgVolume >= BLOW_THRESHOLD_VOLUME) || lowFreqAvg >= 105;
 
-      if (avgVolume > 48 || lowFreqAvg > 62) {
-        blowStreak++;
-        if (blowStreak >= 4) {
+      if (isAboveThreshold) {
+        if (!blowStartTime) {
+          blowStartTime = now;
+        }
+        const elapsed = now - blowStartTime;
+        // Visual feedback fills progressively as the user sustains the breath
+        const progress = Math.min(100, Math.round((elapsed / REQUIRED_BLOW_DURATION) * 100));
+        micFill.style.width = `${progress}%`;
+
+        // Volume must remain consecutively above threshold for at least 500ms
+        if (elapsed >= REQUIRED_BLOW_DURATION) {
           extinguishCandle();
           return;
         }
       } else {
-        blowStreak = Math.max(0, blowStreak - 1);
+        // Instant reset: if volume dips below threshold at any point, reset to 0
+        blowStartTime = 0;
+        // Subtle ambient volume feedback capped at 35% when below threshold
+        const ambientLevel = Math.min(35, Math.round((lowFreqAvg / BLOW_THRESHOLD_LOW_FREQ) * 35));
+        micFill.style.width = `${ambientLevel}%`;
       }
 
       requestAnimationFrame(monitorMicAudio);
@@ -1773,15 +1794,17 @@
 
         analyserNode = ctx.createAnalyser();
         analyserNode.fftSize = 512;
-        analyserNode.smoothingTimeConstant = 0.25;
+        // 0.85 smoothing constant filters out sharp spikes (coughs, claps, door slams)
+        analyserNode.smoothingTimeConstant = 0.85;
         source.connect(analyserNode);
 
+        blowStartTime = 0;
         isListening = true;
         blowBtn.classList.add('listening');
         blowBtnIcon.textContent = '🎤';
-        blowBtnText.textContent = 'Listening... Blow on your mic! 🌬️';
+        blowBtnText.textContent = 'Listening... Blow steadily on your mic! 🌬️';
         micTrack.classList.add('active');
-        micHint.textContent = 'Blow gently near your phone microphone!';
+        micHint.textContent = 'Blow steadily on your phone microphone for a second!';
 
         monitorMicAudio();
       } catch (err) {
